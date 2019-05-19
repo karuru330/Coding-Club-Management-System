@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Challenge</title>
+{% load static %}
+<link href="{% static 'index.css' %}" rel="stylesheet">
+</head>
+<style>
+
+body {font-family: Arial, Helvetica, sans-serif; margin:0;}
+
+
+label {
+  padding: 12px 12px 12px 0;
+  display: inline-block;
+}
+
+li
+{
+	line-height: 1.5;
+	font-size:20px;
+}
+
+.main{
+       background-color: black;
+       color: white;
+}
+
+.buttons{
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  text-decoration: none;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+pre
+{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size:17px;
+}
+</style>
+<body>
+
+<div class="topnav">
+	  <a class="active" href="/compete">Compete</a>
+	  <a href="/leader_board">Leaderboard</a>
+	  <a href="/student_logout" style="float:right;">Logout</a>
+	  <a href="/notifications" style="float:right;"><img src="{% static 'bell.png' %}" width="15px" title="Notifications"></a>
+</div>
+
+<center><h2>Compilation Result</h2></center>
+<br>
+<div style="padding-left:32%;">
+	{% if status == "Wrong Answer" or status == "Correct Answer" %}
+		{% for testcase in message %}
+			{% if testcase.status == "Wrong Answer" %}
+				<b><p style="color:red">{{testcase.status}}</p></b>
+			{% elif testcase.status == "Correct Answer" %}
+				<b><p style="color:green">{{testcase.status}}</p></b>
+			{% endif %}
+			<p><b>Sample Input {{testcase.header}}</b></p>
+			<p style="padding-left:1%;">{{testcase.input}}</p>
+			<p><b>Your Output {{testcase.header}}</b></p>
+			<p style="padding-left:1%;">{{testcase.user_output}}</p>
+			<p><b>Expected Output {{testcase.header}}</b></p>
+			<p style="padding-left:1%;">{{testcase.expected_output}}</p>
+		{% endfor %}
+	{% else %}
+		<pre><b>{{message}}<b></pre>
+	{% endif %}
+</div>
+
+</body>
+</html>
+
+

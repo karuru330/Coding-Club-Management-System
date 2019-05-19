@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Challenge</title>
+{% load static %}
+<link href="{% static 'index.css' %}" rel="stylesheet">
+</head>
+<style>
+
+body {font-family: Arial, Helvetica, sans-serif; margin:0;}
+
+
+label {
+  padding: 12px 12px 12px 0;
+  display: inline-block;
+}
+
+li
+{
+	line-height: 1.5;
+	font-size:20px;
+}
+
+.main{
+       background-color: black;
+       color: white;
+}
+
+.buttons{
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  text-decoration: none;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+pre
+{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size:17px;
+}
+</style>
+<body>
+
+<div class="topnav">
+	  <a class="active" href="/compete">Compete</a>
+	  <a href="/leader_board">Leaderboard</a>
+	  <a href="/student_logout" style="float:right;">Logout</a>
+	  <a href="/notifications" style="float:right;"><img src="{% static 'bell.png' %}" width="15px" title="Notifications"></a>
+</div>
+
+<center><h2>Submission Result</h2></center>
+{% if status == "Wrong Answer" %}
+	<center><h2 style="color:red">{{status}}</h2></center>
+{% elif status == "Correct Answer" %}
+	<center><h2 style="color:green">{{status}}</h2></center>
+{% endif %}
+<div align="center">
+	{% if status == "Wrong Answer" or status == "Correct Answer" %}
+		<h3>Your Score : {{score}}</h3>
+		{% for testcase in message %}
+			<p>Testcase {{testcase.header}} &nbsp;&nbsp; {{testcase.status}}</p>
+		{% endfor %}
+	{% else %}
+	<pre><b>{{message}}<b></pre>
+	{% endif %}
+</div>
+
+</body>
+</html>
+
+

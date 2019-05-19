@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contest Home</title>
+{% load static %}
+<link href="{% static 'index.css' %}" rel="stylesheet">
+</head>
+<style>
+
+body {font-family: Arial, Helvetica, sans-serif; margin:0;}
+
+
+label {
+  padding: 12px 12px 12px 0;
+  display: inline-block;
+}
+
+li
+{
+	line-height: 1.5;
+	font-size:20px;
+}
+
+.main{
+       background-color: black;
+       color: white;
+}
+
+.buttons{
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  text-decoration: none;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+pre
+{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size:17px;
+}
+</style>
+<body>
+
+<div class="topnav">
+	  <a class="active" href="/compete">Compete</a>
+	  <a href="/leader_board">Leaderboard</a>
+	  <a href="/student_logout" style="float:right;">Logout</a>
+	  <a href="/notifications" style="float:right;"><img src="{% static 'bell.png' %}" width="15px" title="Notifications"></a>
+</div>
+
+<div id="details">
+	<div align='center'>
+		<h1>{{campus_contest.contest_name}}</h1>
+		<p style='font-size:20px;'> {{campus_contest.start_date}} &nbsp;{{campus_contest.start_time}} IST &nbsp;to &nbsp;{{campus_contest.end_date}}&nbsp;{{campus_contest.end_time}} IST</p>
+	</div>
+	<center><button  class='buttons' onclick="window.location.href='/compete/contests/{{campus_contest.contest_name}}/challenges'">Enter Contest</button></center>
+	<br>
+	<div>
+		<h1 style='text-align:center;'>About</h1>
+		<div style='padding-left:20%;padding-right:20%;'>
+			<ul>
+				{% for line in about %}
+					<li>{{line}}</li>
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
+	<br>
+	<div>
+		<h1 style='text-align:center;'>Prizes</h1>
+		<div style='padding-left:20%;padding-right:20%;'>
+			<ul>
+				{% for line in prizes %}
+					<li>{{line}}</li>
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
+	<br>
+	<div>
+		<h1 style='text-align:center;'>Rules</h1>
+		<div style='padding-left:20%;padding-right:20%;'>
+			<ul>
+				{% for line in rules %}
+					<li>{{line}}</li>
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
+	<br>
+	<div>
+		<h1 style='text-align:center;'>Scoring</h1>
+		<div style='padding-left:20%;padding-right:20%;'>
+			<ul>
+				{% for line in scoring %}
+					<li>{{line}}</li>
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
+</div>
+
+
+<script>
+
+function GetDate(DATE)
+{
+	var date = DATE.getDate();
+	var month = DATE.getMonth();
+	var year = DATE.getFullYear();
+	if(date==30)
+		date=31;
+	else if(date==31)
+		date=1;
+	if(date<=9)
+		date="0"+date;
+	month++;
+	if(month<=9)
+		month="0"+month;
+	return date+"-"+month+"-"+year;
+}
+</script>
+
+</body>
+</html>
+
+

@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+{% load static %}
+<script src="{% static 'ajax.js' %}" type="text/javascript"></script>
+
+<title>Edit Online Contest</title>
+</head>
+<style>
+* {
+  box-sizing: border-box;
+}
+body {font-family: Arial, Helvetica, sans-serif; margin:0;}
+
+input[type=text], select, textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+}
+input[type=date] {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+}
+label {
+  padding: 12px 12px 12px 0;
+  display: inline-block;
+}
+
+input[type=submit] {
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px 20px;
+  margin-left:2%;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+input[type=reset] {
+  background-color: #4CAF50;
+  color: white;
+  margin-left:13%;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.container {
+  border-radius: 5px;
+  background-color: white;
+  padding-left:2%;
+}
+
+.col-25 {
+  float: left;
+  width: 13%;
+  margin-top: 6px;
+}
+
+.col-75 {
+  float: left;
+  width: 20%;
+  margin-top: 6px;
+}
+body
+{
+	margin:0;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+  .col-25, .col-75, input[type=submit] {
+    width: 100%;
+    margin-top: 0;
+  }
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 1.3% 5%;
+  font-size: 17px;
+  width:25%;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: #ccc;
+}
+
+.topnav {
+  overflow: hidden;
+  background-color: #333;
+}
+
+.topnav a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 20px;
+}
+
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.topnav a.active {
+  background-color: #;
+  color: white;
+}
+
+.active
+{
+	background-color:#4CAF50;
+	inline-block;
+}
+
+/* Style the tab content */
+</style>
+<body>
+
+<div class="topnav">
+	  <a class="active" href="/manage_compete">Manage Compete</a>
+	  <a href="/manage_accounts">Manage Accounts</a>
+	  <a href="/cctm_logout" style="float:right;">Logout</a>	
+</div>
+
+<h2>Edit online contest</h2>
+<div class="container">
+        <br>
+	<form action="/delete_online_contest/{{online_contest.id}}" method="POST" onsubmit="return check('{{online_contest.id}}')">
+		{% csrf_token %}
+		<input type="hidden" id="contest_id" name="contest_id">
+		<div class="row" style="float:right;margin-right:10%;padding-top:0;margin-top:0">
+	      		<div class="col-75">
+				<input type="submit" style="background:red;" value="Delete Contest">
+	      		</div>
+	    	</div>
+	</form>
+	<form action="/update_online_contest/{{online_contest.id}}" method="POST">
+		{% csrf_token %}
+		<div class="row">
+			<div class="col-25">
+				<label for="contest_name">Contest Name</label>
+			</div>
+			<div class="col-75">
+				<input type="text" id="contest_name" name="contest_name" value="{{online_contest.contest_name}}" placeholder="Contest name.." required>
+			</div>
+		</div>
+	    	<div class="row">
+	      		<div class="col-25">
+				<label for="contest_link">Contest Link</label>
+	      		</div>
+	      		<div class="col-75">
+				<input type="text" id="contest_link" name="contest_link" value="{{online_contest.contest_link}}" placeholder="Contest link.." required>
+	      		</div>
+	    	</div>
+	    	<div class="row">
+	      		<div class="col-25">
+				<label for="contest_type">Contest Type</label>
+	      		</div>
+	      		<div class="col-75">
+				<select id="contest_type" name="contest_type" required>
+			  	  <option value="">Select Contest Type</option>
+				  <option value="Competitive">Competitive</option>
+				  <option value="Hackathon">Hackathon</option>
+				  <option value="Idea Submission">Idea Submission</option>
+				</select>
+	      		</div>
+	    	</div>
+		<div class="row">
+	      		<div class="col-25">
+				<label for="start_date">Starting Date</label>
+	      		</div>
+	      		<div class="col-75">
+				<input type="date" id="start_date"  name="start_date" value="" required>
+	      		</div>
+	    	</div>
+		<div class="row">
+	      		<div class="col-25">
+				<label for="start_time">Starting Time</label>
+	      		</div>
+	      		<div class="col-75">
+				<input type="text" id="start_time" name="start_time" value="{{online_contest.start_time}}" placeholder="eg 00:00:00(24-hour format)" required>
+	      		</div>
+	    	</div>
+		<div class="row">
+	      		<div class="col-25">
+				<label for="end_date">Ending Date</label>
+	      		</div>
+	      		<div class="col-75">
+				<input type="date" id="end_date" name="end_date" value="" required>
+	      		</div>
+	    	</div>
+		<div class="row">
+	      		<div class="col-25">
+				<label for="end_time">Ending Time</label>
+	      		</div>
+	      		<div class="col-75">
+				<input type="text" id="end_time" name="end_time" value="{{online_contest.end_time}}" placeholder="eg 00:00:00(24-hour format)" required>
+	      		</div>
+	    	</div><br>
+	    	<div class="row">
+				<input type="reset" value="Reset">
+				<input type="submit" value="Submit">
+	    	</div>
+	</form>
+        <br>
+</div>
+<script>
+function GetDate(DATE)
+{
+	DATE = new Date(DATE);
+	var date = DATE.getDate();
+	var month = DATE.getMonth();
+	var year = DATE.getFullYear();
+	if(date==30)
+		date=31;
+	else if(date==31)
+		date=1;
+	if(date<=9)
+		date="0"+date;
+	month++;
+	if(month<=9)
+		month="0"+month;
+	return year+"-"+month+"-"+date;
+}
+$(document).ready(function (){
+	document.getElementById("start_date").value = GetDate("{{online_contest.start_date}}");
+	document.getElementById("end_date").value =  GetDate("{{online_contest.end_date}}");
+	document.getElementById("contest_type").value = "{{online_contest.contest_type}}";
+	
+});
+function check(id)
+{
+	var r1=confirm("Are you sure want to delete this online contest");
+	if(r1==true)
+	{
+		return true;
+	}
+	return false;
+}
+</script>
+
+</body>
+</html>
+
+

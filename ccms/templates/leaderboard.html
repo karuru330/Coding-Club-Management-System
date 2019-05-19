@@ -1,0 +1,74 @@
+<script type="text/javascript" >
+ history.pushState(null, null, location.href);
+ window.onpopstate = function () {
+  history.go(1);
+ };
+</script>
+<!DOCTYPE html>
+<html>
+<head>
+{% load static %}
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title id="title">Notifications</title>
+</head>
+<style>
+body {font-family: Arial, Helvetica, sans-serif; margin:0;}
+.topnav {
+  overflow: hidden;
+  background-color: #333;
+}
+
+.topnav a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 20px;
+}
+
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.topnav a.active {
+  background-color: #;
+  color: white;
+}
+.active
+{
+	background-color:#4CAF50;
+	inline-block;
+}
+</style>
+<title>Notifications</title>
+<body>
+
+<div class="topnav">
+	  <a href="/compete">Compete</a>
+	  <a class="active" href="/leader_board">Leaderboard</a>
+	  <a href="/student_logout" style="float:right;">Logout</a>
+	  <a href="/notifications" style="float:right;"><img src="{% static 'bell.png' %}" width="20px" title="Notifications"></a>	
+</div>
+<center><h1>Leaderboard</h1></center>
+<table style="margin-top:2%;margin-left:32%;" id="contest_leaderboard" border="1" cellpadding="10" cellspacing="20" >
+	    		<thead>
+			      <tr class="table1">
+				<th width="100">Rank</th>
+				<th width="100">Coder</th>
+				<th width="100">Rating</th>
+			      </tr>
+	    		</thead>
+				{% for row in leaderboard %}
+					<tr>
+						<td>{{row.sno}}</td>
+						<td>{{row.username}}</td>		
+						<td>{{row.rating}}</td>
+					</tr>
+				{% endfor %}
+			<tbody></tbody>
+  		</table>
+</body>
+</html>

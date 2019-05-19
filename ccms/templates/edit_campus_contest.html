@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html>
+<head>
+{% load static %}
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="{% static 'ajax.js' %}" type="text/javascript"></script>
+<title>Edit Campus Contest</title>
+</head>
+<style>
+* {
+  box-sizing: border-box;
+}
+body {font-family: Arial, Helvetica, sans-serif; margin:0;}
+
+input[type=text], select, textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+}
+input[type=date] {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+}
+label {
+  padding: 12px 12px 12px 0;
+  display: inline-block;
+}
+
+input[type=submit] {
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px 20px;
+  margin-left:2%;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+input[type=reset] {
+  background-color: #4CAF50;
+  color: white;
+  margin-left:13%;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+
+
+.container {
+  border-radius: 5px;
+  background-color: white;
+  padding-top: 4%;
+  padding-left:2%;
+}
+
+.col-25 {
+  float: left;
+  width: 13%;
+  margin-top: 6px;
+}
+
+.col-75 {
+  float: left;
+  width: 20%;
+  margin-top: 6px;
+}
+
+.col-10 {
+  float: left;
+  width: 15%;
+  margin-top: 6px;
+}
+.col-5 {
+  float: left;
+  width: 8%;
+  margin-top: 6px;
+}
+body
+{
+	margin:0;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+
+.addchallenge{
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  text-decoration: none;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+/* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+  .col-25, .col-75, input[type=submit] {
+    width: 100%;
+    margin-top: 0;
+  }
+}
+
+
+/* Style the buttons inside the tab */
+.tab button {
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 1.3% 5%;
+  font-size: 17px;
+  width:25%;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: #ccc;
+}
+
+.topnav {
+  overflow: hidden;
+  background-color: #333;
+}
+
+.topnav a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 20px;
+}
+
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.topnav a.active {
+  background-color: #;
+  color: white;
+}
+.active
+{
+	background-color:#4CAF50;
+	inline-block;
+}
+
+.challenges{
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+}
+
+/* Style the tab content */
+</style>
+<body>
+
+
+<div class="topnav">
+	  <a class="active" href="/manage_compete">Manage Compete</a>
+	  <a href="/manage_accounts">Manage Accounts</a>
+	  <a href="/cctm_logout" style="float:right;">Logout</a>	
+</div>
+
+
+<form action="/delete_campus_contest/{{campus_contest.id}}" method="POST" onsubmit="return Delete_Campus_Contest('{{campus_contest.contest_name}}')">
+	{% csrf_token %}
+	<div class="row" style="float:right;margin-right:10%;">
+      		<div class="col-75">
+			<input type="submit" style="background:red;" value="Delete Contest">
+      		</div>
+    	</div>
+</form>
+
+<h2>Edit campus contest</h2>
+
+<div class="tab">
+  <button class="tablinks" style="display" id="defaultOpen" onclick="openCity(event, 'Details')">Details</button>
+  <button class="tablinks" onclick="openCity(event, 'Challenges')">Challenges</button>
+  <button class="tablinks" onclick="openCity(event, 'Registrations')">Registrations</button>
+  <button class="tablinks" onclick="openCity(event, 'Notifications')">Notifications</button>
+</div>
+
+<div class="container">
+	<br>
+	<div id="Details" class="tabcontent">
+		<form action="/update_campus_contest/{{campus_contest.contest_name}}" onsubmit="return check()" method="POST">
+			{% csrf_token %}
+			<div class="row">
+				<div class="col-25">
+					<label for="contest_name">Contest Name</label>
+				</div>
+				<div class="col-75">
+					<input type="text" id="contest_name" name="contest_name" placeholder="Enter Contest" value="{{campus_contest.contest_name}}" required>
+				</div>
+			</div>
+		    	<div class="row">
+		      		<div class="col-25">
+					<label for="organizer">Organizer</label>
+		      		</div>
+		      		<div class="col-75">
+					<input type="text" id="organizer" name="organizer" placeholder="Organizer" value="{{campus_contest.organizer}}" required>
+		      		</div>
+		    	</div>
+		    	<div class="row">
+		      		<div class="col-25">
+					<label for="contest_type">Contest Type</label>
+		      		</div>
+		      		<div class="col-75">
+					<select id="contest_type" name="contest_type" required>
+				  	  <option value="">Select Contest Type</option>
+					  <option value="Competitive">Competitive</option>
+					  <option value="Hackathon">Hackathon</option>
+					  <option value="Idea Submission">Idea Submission</option>
+					</select>
+		      		</div>
+		    	</div>
+			<div class="row">
+		      		<div class="col-25">
+					<label for="start_date">Starting Date</label>
+		      		</div>
+		      		<div class="col-75">
+					<input type="date" id="start_date" name="start_date" required>
+		      		</div>
+		    	</div>
+			<div class="row">
+		      		<div class="col-25">
+					<label for="start_time">Starting Time</label>
+		      		</div>
+		      		<div class="col-75">
+					<input type="text" id="start_time" name="start_time" placeholder="eg 00:00:00(24-hour format)" value="{{campus_contest.start_time}}" required>
+		      		</div>
+		    	</div>
+			<div class="row">
+		      		<div class="col-25">
+					<label for="end_date">Ending Date</label>
+		      		</div>
+		      		<div class="col-75">
+					<input type="date" id="end_date" name="end_date" required>
+		      		</div>
+		    	</div>
+			<div class="row">
+		      		<div class="col-25">
+					<label for="end_time">Ending Time</label>
+		      		</div>
+		      		<div class="col-75">
+					<input type="text" id="end_time" name="end_time" placeholder="eg 00:00:00(24-hour format)" value="{{campus_contest.end_time}}" required>
+		      		</div>
+		    	</div><br>
+			<hr style="margin:0"><br>
+			<div class="row">
+		      		<div class="col-25">
+					<label for="description">Description</label>
+		      		</div>
+				<div class="col-75">
+					<textarea rows="6" id="description" name="description" style="width:230%;height:230%;" required>{{description}}</textarea>
+		      		</div>
+		      		
+		    	</div><br>
+			<div class="row">
+		      		<div class="col-25">
+					<label for="prizes">Prizes</label>
+		      		</div>
+		      		<div class="col-75">
+					<textarea rows="6" id="prizes" name="prizes" style="width:230%;height:230%;" required>{{prizes}}</textarea>
+		      		</div>
+		    	</div><br>
+			<div class="row">
+		      		<div class="col-25">
+					<label for="rules">Rules</label>
+		      		</div>
+		      		<div class="col-75">
+					<textarea rows="6" id="rules" name="rules" style="width:230%;height:230%;" required>{{rules}}</textarea>
+		      		</div>
+		    	</div><br>
+			<div class="row">
+		      		<div class="col-25">
+					<label for="scoring">Scoring</label>
+		      		</div>
+		      		<div class="col-75">
+					<textarea rows="6" id="scoring" name="scoring" style="width:230%;height:230%;" required>{{scoring}}</textarea>
+		      		</div>
+		    	</div><br>
+			<input type="hidden" id="campus_contest_id" name="campus_contest_id">
+		    	<div class="row">
+					<input type="reset" value="Reset">
+					<input type="submit" value="Save">
+		    	</div>
+		</form>
+	</div>
+	<div id="Challenges" class="tabcontent">
+		 <button  style="float:right;margin-right:3%;" class="addchallenge" onclick="add_challenge();">Add challenge</button>
+	        <br><br>
+		<div id="challenges_info" style="margin-left:20%;">
+			<div>
+				<table border='1px' width='70%' style='text-align:center;background-color:#f1f1c1;font-size:18px;border-collapse:collapse;'>
+					<th>Challenge ID</th>
+					<th>Challenge Name</th>
+					<th>Score</th>
+					
+					{% for challenge in contest_challenges %}
+	
+						<tr>
+							<td>{{challenge.id}}</td>
+							<td>{{challenge.challenge_name}}</td>
+							<td>{{challenge.score}}</td>
+							</td><td><img id="{{challenge.id}}" src="{% static 'edit.png' %}" title='Edit' onclick="Edit('{{challenge.challenge_name}}','{{challenge.score}}','{{challenge.contest_name}}');"></td>
+							<td>
+								<form action="/remove_challenge/{{challenge.contest_name}}/{{challenge.challenge_name}}" onsubmit="return Remove('{{challenge.id}}')"method="POST">	
+									{% csrf_token %}
+									<input type="submit" class="buttons1" value="Remove">
+								</form>
+							</td>
+						</tr>
+					{% endfor %}
+				</table>
+			</div><br><br>
+		</div>
+		<br><br>
+		<form action="/add_challenge/{{contest.contest_name}}" id="add_challenge" method="POST" style="display:none" autocomplete="off">
+			{% csrf_token %}
+			<div class="row" style="margin: 0px 0px 0px 430px;">
+				<div class="col-25">
+					<label for="challenge_name">Challenge Name</label>
+				</div>
+				<div class="col-75">
+					<input list="challenges" id="challenge_name" class="challenges" name="challenge_name" placeholder="Challenge name.." required>
+					  <datalist id="challenges">
+						{% for challenge in challenges %}
+							<option value="{{challenge.challenge_name}}"></option>
+						{% endfor %}
+					  </datalist>
+				</div>
+			</div>
+		    	<div class="row" style="margin: 0px 0px 0px 430px;">
+		      		<div class="col-25">
+					<label for="score">Score</label>
+		      		</div>
+		      		<div class="col-75">
+					<input type="text" id="score" name="score" placeholder="score" required>
+		      		</div>
+			<div id="hidden_challenges">
+			</div>
+		    	</div><br>
+				<input type="hidden" id="campus_contest_name" name="campus_contest_name">
+				<input style="margin-left:45%" type="submit" value="Save">
+		    	</div>
+		</form>
+	</div>
+	<div id="Registrations" class="tabcontent">
+		<br>
+		 <button  style="float:right;margin-right:3%;" class="addchallenge" onclick="window.location.href='/add_participant/{{campus_contest.contest_name}}'">Add Participant</button>
+		<div style="float:right;margin-right:3%;">
+			<form action="/add_all/{{campus_contest.contest_name}}" method="POST" onsubmit="return Alert();">
+				{% csrf_token %}
+				<input type="submit" value="Add All Students As Participants" class="addchallenge">
+			</form>
+		</div>
+		<div style="padding-left:20%;padding-top:5%;">
+			<table border='1px' width='50%' style='text-align:center;background-color:#f1f1c1;font-size:18px;border-collapse:collapse;'>
+					<th>Participant's Username</th>
+					<th>Action</th>
+					{% for participant in participants %}
+	
+						<tr>
+							<td>{{participant.username}}</td>
+							<td>
+								<form action="/remove_participant/{{participant.contest_name}}/{{participant.username}}" onsubmit="return Remove_Participant('{{participant.username}}')"method="POST">	
+									{% csrf_token %}
+									<input type="submit" class="buttons1" value="Remove">
+								</form>
+							</td>
+						</tr>
+					{% endfor %}
+			</table>
+				
+		</div>
+	</div>
+	<div id="Notifications" class="tabcontent" style="padding-left:2%;">
+		<br>
+		<form action="/send_notification/{{campus_contest.contest_name}}" method="POST">
+			{% csrf_token %}
+			<center><p><span style="color:red;">*</span> These Notifications will be sent only to the participants of this contest</p></center>
+			<div class="row">
+				<div class="col-25">
+					<label for="message">Message</label>
+		      		</div>
+		      		<div class="col-75">
+					<textarea rows="6" id="message" name="message" style="width:230%;height:230%;" required></textarea>
+		      		</div>
+			</div>
+			<br>
+		    	<div class="row">
+					<input type="reset" value="Reset">
+					<input type="submit" value="Save">
+		    	</div>
+		</form>
+	</div>
+
+</div>
+
+
+<script>
+function openCity(evt, cityName) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(cityName).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+document.getElementById("defaultOpen").click();
+
+$(document).ready(function (){
+	SetValues();
+});
+function SetValues()
+{
+	document.getElementById("contest_type").value = "{{campus_contest.contest_type}}";
+	document.getElementById("start_date").value = GetDate("{{campus_contest.start_date}}");
+	document.getElementById("end_date").value = GetDate("{{campus_contest.end_date}}");
+}
+
+function GetDate(DATE)
+{
+	DATE = new Date(DATE);
+	var date = DATE.getDate();
+	var month = DATE.getMonth();
+	var year = DATE.getFullYear();
+	if(date==30)
+		date=31;
+	else if(date==31)
+		date=1;
+	if(date<=9)
+		date="0"+date;
+	month++;
+	if(month<=9)
+		month="0"+month;
+	return year+"-"+month+"-"+date;
+}
+
+function add_challenge()
+{
+	document.getElementById("add_challenge").reset();
+	document.getElementById("add_challenge").style.display="block";
+	document.getElementById("add_challenge").action="/add_challenge/{{campus_contest.contest_name}}";
+}
+function check()
+{
+	var sdate = document.getElementById("start_date").value;
+	var edate = document.getElementById("end_date").value;
+	var stime = document.getElementById("start_time").value;
+	var etime = document.getElementById("end_time").value;
+	var date1 = new Date(sdate);
+	var d1=Number(date1.getDate());
+	var m1=Number(date1.getMonth());
+	var y1=Number(date1.getFullYear());
+	m1++;
+	var date2 = new Date(edate);
+	var d2=Number(date2.getDate());
+	var m2=Number(date2.getMonth());
+	var y2=Number(date2.getFullYear());
+	m2++;
+	var h1=Number(stime.slice(0,2));
+	var mi1=Number(stime.slice(3,5));
+	var s1=Number(stime.slice(6,8));
+	var h2=Number(etime.slice(0,2));
+	var mi2=Number(etime.slice(3,5));
+	var s2=Number(etime.slice(6,8));
+	var date = new Date();
+	var d=Number(date.getDate());
+	var m=Number(date.getMonth());
+	var y=Number(date.getFullYear());
+	m++;
+	var h=Number(date.getHours());
+	var mi=Number(date.getMinutes());
+	var s=Number(date.getSeconds());
+
+	var start = Date.parse(y1+"/"+m1+"/"+d1+" "+h1+":"+mi1+":"+s1);
+	var end = Date.parse(y2+"/"+m2+"/"+d2+" "+h2+":"+mi2+":"+s2);
+	var current = Date.parse(y+"/"+m+"/"+d+" "+h+":"+mi+":"+s);
+	if(current<=start && end>start)
+	{
+		return true;
+	}
+	else
+	{
+		alert('Please choose valid date and time');
+		return false;	
+	}
+}
+function Edit(challenge_name,score,contest_name)
+{
+	document.getElementById("add_challenge").style.display="block";
+	document.getElementById("add_challenge").action="/modify_challenge/"+contest_name+"/"+challenge_name;
+	document.getElementById("challenge_name").value = challenge_name;
+	document.getElementById("score").value = score;
+}
+function Remove(id)
+{
+	var r1=confirm("Are you sure want to remove challenge "+id);
+	if(r1==true)
+	{
+		return true;
+	}
+	return false;
+}
+function Alert()
+{
+	var r1=confirm("Are you sure want to allow all students");
+	if(r1==true)
+	{
+		return true;
+	}
+	return false;
+}
+function Remove_Participant(username)
+{
+	var r1=confirm("Are you sure want to remove participant "+username);
+	if(r1==true)
+	{
+		return true;
+	}
+	return false;
+}
+function Delete_Campus_Contest(contest_name)
+{
+	var r1=confirm("Are you sure want to Delete Campus Contest "+contest_name);
+	if(r1==true)
+	{
+		return true;
+	}
+	return false;
+}
+</script>
+
+</body>
+</html>
+
+

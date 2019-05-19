@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Challenges</title>
+{% load static %}
+<link href="{% static 'index.css' %}" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {font-family: Arial, Helvetica, sans-serif; margin:0;}
+.tab {
+  padding-left:12%;
+  padding-top:2%;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 1% 16%;
+  font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 1% 21%;
+}
+
+.buttons{
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  text-decoration: none;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.btn{
+  background-color: #4CAF50;
+  float:right;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+form {
+    display: inline;
+}
+table,tr,td
+{
+	border-collapse:collapse;
+}
+
+</style>
+<body>
+
+
+<div class="topnav">
+	  <a class="active" href="/manage_compete">Manage Compete</a>
+	  <a href="/manage_accounts">Manage Accounts</a>
+	  <a href="/cctm_logout" style="float:right;">Logout</a>	
+</div>
+
+<h2 style="color:blue;text-align:center;">Challenges</h2><hr>
+<button  style="float:right;margin-right:3%;" class="buttons" onclick="window.location.href='/create_challenge'">Create Challenge</button>
+<center><h4>{{message}}</h4></center>
+<div id="challenges" style="padding-top:3%;">
+		{% for challenge in challenges %}
+			<div style="margin-left:20%">
+				<div><table border='1px' width='50%' style='font-size:18px;'>
+			   		<tr><td>Challenge ID : {{challenge.id}}</td></tr>
+					<tr><td>Challenge Name : {{challenge.challenge_name}}<button  style="float:right;dispay:inline;" class="btn" onclick="window.location.href='/edit_challenge/{{challenge.challenge_name}}'">Edit</button></td></tr>
+					<tr><td>Created_By : {{challenge.created_by}}</td></tr>
+				
+			   	</table></div><br><br>
+			</div>
+		{% endfor %}
+</div>
+</body>
+</html>
+
+

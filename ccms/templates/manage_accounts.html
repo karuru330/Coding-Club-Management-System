@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+{% load static %}
+<link href="{% static 'index.css' %}" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {font-family: Arial, Helvetica, sans-serif; margin:0;}
+.tab {
+  padding-left:12%;
+  padding-top:2%;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 1% 16%;
+  font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 1% 21%;
+}
+
+.buttons{
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  text-decoration: none;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.buttons1{
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 2px 8px;
+  text-decoration: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn{
+  background-color: #4CAF50;
+  float:right;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+form {
+    display: inline;
+}
+table,tr,td
+{
+	border-collapse:collapse;
+}
+
+</style>
+<title>Coding Club</title>
+</head>
+<body>
+
+<div class="topnav">
+	  <a href="/manage_compete">Manage Compete</a>
+	  <a class="active" href="/manage_accounts">Manage Accounts</a>
+	  <a href="/cctm_logout" style="float:right;">Logout</a>	
+</div>
+
+<h2 style="text-align:center">Coding Club Team Members</h2>
+<br><br>
+<button  class="buttons" style="margin-left:75%;" onclick="window.location.href='/add_member'">Add member</button>
+<br><br>
+
+<div class="content" align="center">
+	{{message}}
+	<br><br>
+	<table id="servers" border="1" cellpadding="10" cellspacing="20" >
+    		<thead>
+		      <tr class="table1" id="head">
+			<th width="250">Username</th>
+			<th width="30">Action</th>
+		      </tr>
+    		</thead>
+		{% for cctm in cctms %}
+			<tr>
+				<td>{{cctm.username}}</td>
+				{% if cctm.username == user %}
+					<td>You</td>
+				{% else %}
+					<td>
+						<form action="/remove_member/{{cctm.username}}" onsubmit="return remove('{{cctm.username}}')"method="POST">	
+							{% csrf_token %}
+							<input type="submit" class="buttons1" value="Remove">
+						</form>
+					</td>
+				{% endif %}
+			</tr>
+		{% endfor %}
+		
+  	</table>
+</div>
+
+
+
+<script>
+function remove(id)
+{
+	var r1=confirm("Are you sure want to delete testcase "+id);
+	if(r1==true)
+	{
+		return true;
+	}
+	return false;
+}
+</script>
+
+</body>
+</html>
+

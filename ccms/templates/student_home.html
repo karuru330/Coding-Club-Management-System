@@ -1,0 +1,31 @@
+<script type="text/javascript" >
+ history.pushState(null, null, location.href);
+ window.onpopstate = function () {
+  history.go(1);
+ };
+</script>
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+{% load static %} 
+<link href="{% static 'index.css' %}" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {font-family: Arial, Helvetica, sans-serif; margin:0;}
+</style>
+<title>Coding Club</title>
+</head>
+<body background="{% static 'login.jpg' %}">
+
+<div class="topnav">
+	  <a href="/compete">Compete</a>
+	  <a href="/leader_board">Leaderboard</a>
+	  <a href="/student_logout" style="float:right;">Logout</a>
+	  <a href="/notifications" style="float:right;"><img src="{% static 'bell.png' %}" width="18px" title="Notifications"></a>	
+</div>
+</div>
+</body>
+</html>
+
+

@@ -1,0 +1,96 @@
+<script type="text/javascript" >
+ history.pushState(null, null, location.href);
+ window.onpopstate = function () {
+  history.go(1);
+ };
+</script>
+<!DOCTYPE html>
+<html>
+<head> 
+<title>Coding Club</title>
+</head>
+{% load static %} 
+<link href="{% static 'index.css' %}" rel="stylesheet">
+<body>
+<center><h2 style="color:blue">Welcome to Coding club</h2></center>
+{% if user == "student" or user == None %}
+
+	<div class="tab">
+		  <button class="tablinks" style="display;color:black" id="defaultOpen" onclick="openCity(event, 'student')">Student Login</button>
+		  <button class="tablinks" style="color:black" onclick="openCity(event, 'admin')">CCT Member Login</button>
+	</div>
+{% else %}
+	<div class="tab">
+		  <button class="tablinks" style="display;color:black" onclick="openCity(event, 'student')">Student Login</button>
+		  <button class="tablinks" style="color:black" id="defaultOpen" onclick="openCity(event, 'admin')">CCT Member Login</button>
+	</div>
+{% endif %}
+
+<div id="student" class="tabcontent">
+	<div class="bord" style="text-align:center;margin-left:25%;margin-top:10%;">
+     		<h2 style="color:green;">Student Login</h2>
+		{% if user == "student" %}
+			{{message}}
+		{% endif %}
+            
+            <form action="/student_login" method="POST" autocomplete="off">
+		{% csrf_token %}
+                <div class="form-group"> 
+			<div class="form-group">
+		            <input type="text" class="decoration" name="username" placeholder="University ID" required>
+		        </div>
+                </div>
+                <div class="form-group">
+                    <input type="password" class="decoration" name="password" placeholder="SSC Hall Ticket" required>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Login" class="row">
+                </div>
+            </form>
+      
+   	 </div>
+</div>
+<div id="admin" class="tabcontent">
+	<div class="bord" style="text-align:center;margin-left:25%;margin-top:10%;">
+		 <h2 style="color:green;">CCT Member Login</h2>
+		 {% if user == "cctm" %}
+			{{message}}
+		 {% endif %}
+		 <form action="/cctm_login" method="POST" autocomplete="off">
+			{% csrf_token %}
+		        <div class="form-group">
+		            <input type="text" class="decoration" name="username" placeholder="Username" required>
+		        </div>
+		        <div class="form-group">
+		            <input type="password" class="decoration" name="password" placeholder="Password" required>
+		        </div>
+		        <div class="form-group">
+		            <input type="submit" value="Login" class="row">
+		        </div>
+		    </form>
+	</div>
+</div>
+
+
+<script>
+// Get the modal
+
+function openCity(evt, cityName) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(cityName).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+document.getElementById("defaultOpen").click();
+</script>
+
+</body>
+</html>
+

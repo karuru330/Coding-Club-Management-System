@@ -1,0 +1,1 @@
+A single line contains two space separated integers a and b

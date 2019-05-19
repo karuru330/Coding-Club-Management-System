@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+{% load static %}
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="{% static 'index.css' %}" rel="stylesheet">
+<title id="title">{{contest_name}} Leaderboard</title>
+</head>
+<style>
+
+body {font-family: Arial, Helvetica, sans-serif; margin:0;}
+
+
+label {
+  padding: 12px 12px 12px 0;
+  display: inline-block;
+}
+
+input[type=submit] {
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+li
+{
+	line-height: 1.5;
+	font-size:20px;
+}
+
+.main{
+       background-color: black;
+       color: white;
+}
+
+.row{
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  text-decoration: none;
+  cursor: pointer;
+  float:right;
+  margin-right:3%;
+}
+
+.challenges
+{
+	border: 1px solid green;
+	margin-left:3%;
+	border-radius: 10px;
+	width: 50%;
+}
+</style>
+<body>
+
+<div class="topnav">
+	  <a class="active" href="/compete">Compete</a>
+	  <a href="/leader_board">Leaderboard</a>
+	  <a href="/student_logout" style="float:right;">Logout</a>
+	  <a href="/notifications" style="float:right;"><img src="{% static 'bell.png' %}" width="15px" title="Notifications"></a>
+</div>
+
+<div>
+	<center><h1 style="color:blue;" id="leaderboard">{{contest_name}} Leaderboard</h1></center>
+	<div style="padding-left:30%;">
+		<table style="margin-top:2%;margin-left:2%;" id="contest_leaderboard" border="1" cellpadding="10" cellspacing="20" >
+	    		<thead>
+			      <tr class="table1">
+				<th width="100">Rank</th>
+				<th width="100">Coder</th>
+				<th width="100">Score</th>
+				<th width="100">Time Taken</th>
+			      </tr>
+	    		</thead>
+				{% for row in leaderboard %}
+					<tr>
+						<td>{{row.sno}}</td>
+						<td>{{row.username}}</td>		
+						<td>{{row.score}}</td>
+						<td>{{row.time}}</td>
+					</tr>
+				{% endfor %}
+			<tbody></tbody>
+  		</table>
+	</div>
+</div>
+</script>
+
+</body>
+</html>
+
+

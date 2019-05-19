@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+{% load static %}
+<link href="{% static 'index.css' %}" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {font-family: Arial, Helvetica, sans-serif; margin:0;}
+.tab {
+  padding-left:12%;
+  padding-top:2%;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 1% 16%;
+  font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #ccc;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: #ddd;
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 1% 21%;
+}
+
+.buttons{
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  text-decoration: none;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.btn{
+  background-color: #4CAF50;
+  float:right;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+form {
+    display: inline;
+}
+table,tr,td
+{
+	border-collapse:collapse;
+}
+
+</style>
+<title>Coding Club</title>
+</head>
+<body>
+
+<div class="topnav">
+	<a class="active" href="/compete">Compete</a>
+	<a href="/leader_board">Leaderboard</a>
+	<a href="/student_logout" style="float:right;">Logout</a>
+	<a href="/notifications" style="float:right;"><img src="{% static 'bell.png' %}" width="15px" title="Notifications"></a>	
+</div>
+
+
+{% if tab_status == "campus" %}
+	<div class="tab">
+	  <button class="tablinks" style="display" id="defaultOpen" onclick="openCity(event, 'Campus')">Campus Contests</button>
+	  <button class="tablinks" onclick="window.location.href='/compete/online_contests'">Online Contests</button>
+	</div>
+{% else %}
+	<div class="tab">
+	  <button class="tablinks" style="display"  onclick="window.location.href='/compete/campus_contests'">Campus Contests</button>
+	  <button class="tablinks" id="defaultOpen" onclick="openCity(event, 'Other')">Online Contests</button>
+	</div>
+	
+{% endif %}
+
+
+<div id="Campus" class="tabcontent">
+	<br><br><br>
+  	{% for contest in campus_contests %}
+		<div><table border='1px' width='100%' style='font-size:18px;'>
+		   		<tr><td>Contest Name : {{contest.contest_name}}</td></tr>
+				<tr><td>Organizer :   {{contest.organizer}}</td></tr>
+		     		<tr><td>Contest Type : {{contest.contest_type}}<button  style="float:right;dispay:inline;" class="btn" onclick="window.location.href='contests/{{contest.contest_name}}'">Participate</button></td></tr>
+				<tr><td>Starts at : <span >{{contest.start_date}}</span> &nbsp;&nbsp;{{contest.start_time}}</td></tr>
+				<tr><td>Ends at : <span >{{contest.end_date}}</span> &nbsp;&nbsp;{{contest.end_time}}</td></tr>
+			
+		</table></div><br><br>
+	{% endfor %}
+</div>
+
+<div id="Other" class="tabcontent">
+	<br><br><br>
+  	{% for contest in online_contests %}
+		<div><table border='1px' width='100%' style='font-size:18px;'>
+		   		<tr><td>Contest Name : {{contest.contest_name}}</td></tr>
+				<tr><td>Contest Link : <a href="https://{{contest.contest_link}}" target="_blank">{{contest.contest_link}}</a></td></tr>
+		     		<tr><td>Contest Type : {{contest.contest_type}}</td></tr>
+				<tr><td>Starts at : <span >{{contest.start_date}}</span> &nbsp;&nbsp;{{contest.start_time}}</td></tr>
+				<tr><td>Ends at : <span >{{contest.end_date}}</span> &nbsp;&nbsp;{{contest.end_time}}</td></tr>
+				
+		</table></div><br><br>
+	{% endfor %}
+</div>
+
+
+<script>
+// Get the modal
+
+function openCity(evt, cityName) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(cityName).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+document.getElementById("defaultOpen").click();
+
+
+</script>
+
+</body>
+</html>
+
